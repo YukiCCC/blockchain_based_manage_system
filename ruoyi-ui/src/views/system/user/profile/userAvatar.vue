@@ -1,7 +1,9 @@
 <template>
   <div>
-    <div class="user-info-head" @click="editCropper()"><img v-bind:src="options.img" title="点击上传头像" class="img-circle img-lg" /></div>
-    <el-dialog :title="title" :visible.sync="open" width="800px" append-to-body @opened="modalOpened"  @close="closeDialog">
+    <div class="user-info-head" @click="editCropper()"><img v-bind:src="options.img" title="点击上传头像"
+                                                            class="img-circle img-lg"/></div>
+    <el-dialog :title="title" :visible.sync="open" width="800px" append-to-body @opened="modalOpened"
+               @close="closeDialog">
       <el-row>
         <el-col :xs="24" :md="12" :style="{height: '350px'}">
           <vue-cropper
@@ -19,11 +21,11 @@
         </el-col>
         <el-col :xs="24" :md="12" :style="{height: '350px'}">
           <div class="avatar-upload-preview">
-            <img :src="previews.url" :style="previews.img" />
+            <img :src="previews.url" :style="previews.img"/>
           </div>
         </el-col>
       </el-row>
-      <br />
+      <br/>
       <el-row>
         <el-col :lg="2" :sm="3" :xs="3">
           <el-upload action="#" :http-request="requestUpload" :show-file-list="false" :before-upload="beforeUpload">
@@ -55,12 +57,12 @@
 
 <script>
 import store from "@/store"
-import { VueCropper } from "vue-cropper"
-import { uploadAvatar } from "@/api/system/user"
-import { debounce } from '@/utils'
+import {VueCropper} from "vue-cropper"
+import {uploadAvatar} from "@/api/system/user"
+import {debounce} from '@/utils'
 
 export default {
-  components: { VueCropper },
+  components: {VueCropper},
   data() {
     return {
       // 是否显示弹出层
@@ -75,7 +77,7 @@ export default {
         autoCropWidth: 200,         // 默认生成截图框宽度
         autoCropHeight: 200,        // 默认生成截图框高度
         fixedBox: true,             // 固定截图框大小 不允许改变
-        outputType:"png",           // 默认生成截图为PNG格式
+        outputType: "png",           // 默认生成截图为PNG格式
         filename: 'avatar'          // 文件名称
       },
       previews: {},

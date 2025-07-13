@@ -2,11 +2,11 @@
   <section class="app-main">
     <transition name="fade-transform" mode="out-in">
       <keep-alive :include="cachedViews">
-        <router-view v-if="!$route.meta.link" :key="key" />
+        <router-view v-if="!$route.meta.link" :key="key"/>
       </keep-alive>
     </transition>
-    <iframe-toggle />
-    <copyright />
+    <iframe-toggle/>
+    <copyright/>
   </section>
 </template>
 
@@ -16,7 +16,7 @@ import iframeToggle from "./IframeToggle/index"
 
 export default {
   name: 'AppMain',
-  components: { iframeToggle, copyright },
+  components: {iframeToggle, copyright},
   computed: {
     cachedViews() {
       return this.$store.state.tagsView.cachedViews
@@ -35,7 +35,7 @@ export default {
   },
   methods: {
     addIframe() {
-      const { name } = this.$route
+      const {name} = this.$route
       if (name && this.$route.meta.link) {
         this.$store.dispatch('tagsView/addIframeView', this.$route)
       }

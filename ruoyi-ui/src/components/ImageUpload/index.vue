@@ -25,8 +25,8 @@
     <!-- 上传提示 -->
     <div class="el-upload__tip" slot="tip" v-if="showTip && !disabled">
       请上传
-      <template v-if="fileSize"> 大小不超过 <b style="color: #f56c6c">{{ fileSize }}MB</b> </template>
-      <template v-if="fileType"> 格式为 <b style="color: #f56c6c">{{ fileType.join("/") }}</b> </template>
+      <template v-if="fileSize"> 大小不超过 <b style="color: #f56c6c">{{ fileSize }}MB</b></template>
+      <template v-if="fileType"> 格式为 <b style="color: #f56c6c">{{ fileType.join("/") }}</b></template>
       的文件
     </div>
 
@@ -45,8 +45,8 @@
 </template>
 
 <script>
-import { getToken } from "@/utils/auth"
-import { isExternal } from "@/utils/validate"
+import {getToken} from "@/utils/auth"
+import {isExternal} from "@/utils/validate"
 import Sortable from 'sortablejs'
 
 export default {
@@ -68,7 +68,7 @@ export default {
     },
     // 大小限制(MB)
     fileSize: {
-       type: Number,
+      type: Number,
       default: 5
     },
     // 文件类型, 例如['png', 'jpg', 'jpeg']
@@ -131,9 +131,9 @@ export default {
           this.fileList = list.map(item => {
             if (typeof item === "string") {
               if (item.indexOf(this.baseUrl) === -1 && !isExternal(item)) {
-                  item = { name: this.baseUrl + item, url: this.baseUrl + item }
+                item = {name: this.baseUrl + item, url: this.baseUrl + item}
               } else {
-                  item = { name: item, url: item }
+                item = {name: item, url: item}
               }
             }
             return item
@@ -196,7 +196,7 @@ export default {
     // 上传成功回调
     handleUploadSuccess(res, file) {
       if (res.code === 200) {
-        this.uploadList.push({ name: res.fileName, url: res.fileName })
+        this.uploadList.push({name: res.fileName, url: res.fileName})
         this.uploadedSuccessfully()
       } else {
         this.number--
@@ -256,7 +256,7 @@ export default {
 
 ::v-deep .el-upload-list--picture-card.is-disabled + .el-upload--picture-card {
   display: none !important;
-} 
+}
 
 // 去掉动画效果
 ::v-deep .el-list-enter-active,

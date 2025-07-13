@@ -11,7 +11,8 @@
 </template>
 
 <script>
-import { createTable } from "@/api/tool/gen"
+import {createTable} from "@/api/tool/gen"
+
 export default {
   data() {
     return {
@@ -32,7 +33,7 @@ export default {
         this.$modal.msgError("请输入建表语句")
         return
       }
-      createTable({ sql: this.content }).then(res => {
+      createTable({sql: this.content}).then(res => {
         this.$modal.msgSuccess(res.msg)
         if (res.code === 200) {
           this.visible = false

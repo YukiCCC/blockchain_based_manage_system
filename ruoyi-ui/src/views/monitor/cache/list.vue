@@ -118,19 +118,20 @@
               type="text"
               icon="el-icon-refresh-right"
               @click="handleClearCacheAll()"
-              >清理全部</el-button
+            >清理全部
+            </el-button
             >
           </div>
           <el-form :model="cacheForm">
             <el-row :gutter="32">
               <el-col :offset="1" :span="22">
                 <el-form-item label="缓存名称:" prop="cacheName">
-                  <el-input v-model="cacheForm.cacheName" :readOnly="true" />
+                  <el-input v-model="cacheForm.cacheName" :readOnly="true"/>
                 </el-form-item>
               </el-col>
               <el-col :offset="1" :span="22">
                 <el-form-item label="缓存键名:" prop="cacheKey">
-                  <el-input v-model="cacheForm.cacheKey" :readOnly="true" />
+                  <el-input v-model="cacheForm.cacheKey" :readOnly="true"/>
                 </el-form-item>
               </el-col>
               <el-col :offset="1" :span="22">
@@ -152,7 +153,14 @@
 </template>
 
 <script>
-import { listCacheName, listCacheKey, getCacheValue, clearCacheName, clearCacheKey, clearCacheAll } from "@/api/monitor/cache"
+import {
+  listCacheName,
+  listCacheKey,
+  getCacheValue,
+  clearCacheName,
+  clearCacheKey,
+  clearCacheAll
+} from "@/api/monitor/cache"
 
 export default {
   name: "CacheList",

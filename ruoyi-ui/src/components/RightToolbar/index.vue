@@ -1,25 +1,28 @@
 <template>
   <div class="top-right-btn" :style="style">
     <el-row>
-      <el-tooltip class="item" effect="dark" :content="showSearch ? '隐藏搜索' : '显示搜索'" placement="top" v-if="search">
-        <el-button size="mini" circle icon="el-icon-search" @click="toggleSearch()" />
+      <el-tooltip class="item" effect="dark" :content="showSearch ? '隐藏搜索' : '显示搜索'" placement="top"
+                  v-if="search">
+        <el-button size="mini" circle icon="el-icon-search" @click="toggleSearch()"/>
       </el-tooltip>
       <el-tooltip class="item" effect="dark" content="刷新" placement="top">
-        <el-button size="mini" circle icon="el-icon-refresh" @click="refresh()" />
+        <el-button size="mini" circle icon="el-icon-refresh" @click="refresh()"/>
       </el-tooltip>
       <el-tooltip class="item" effect="dark" content="显隐列" placement="top" v-if="columns">
         <el-button size="mini" circle icon="el-icon-menu" @click="showColumn()" v-if="showColumnsType == 'transfer'"/>
-        <el-dropdown trigger="click" :hide-on-click="false" style="padding-left: 12px" v-if="showColumnsType == 'checkbox'">
-          <el-button size="mini" circle icon="el-icon-menu" />
+        <el-dropdown trigger="click" :hide-on-click="false" style="padding-left: 12px"
+                     v-if="showColumnsType == 'checkbox'">
+          <el-button size="mini" circle icon="el-icon-menu"/>
           <el-dropdown-menu slot="dropdown">
             <!-- 全选/反选 按钮 -->
             <el-dropdown-item>
-              <el-checkbox :indeterminate="isIndeterminate" v-model="isChecked" @change="toggleCheckAll"> 列展示 </el-checkbox>
+              <el-checkbox :indeterminate="isIndeterminate" v-model="isChecked" @change="toggleCheckAll"> 列展示
+              </el-checkbox>
             </el-dropdown-item>
             <div class="check-line"></div>
             <template v-for="item in columns">
               <el-dropdown-item :key="item.key">
-                <el-checkbox v-model="item.visible" @change="checkboxChange($event, item.label)" :label="item.label" />
+                <el-checkbox v-model="item.visible" @change="checkboxChange($event, item.label)" :label="item.label"/>
               </el-dropdown-item>
             </template>
           </el-dropdown-menu>
@@ -87,7 +90,8 @@ export default {
       get() {
         return this.columns.every((col) => col.visible)
       },
-      set() {}
+      set() {
+      }
     },
     isIndeterminate() {
       return this.columns.some((col) => col.visible) && !this.isChecked
@@ -142,9 +146,11 @@ export default {
   display: block;
   margin-left: 0px;
 }
+
 ::v-deep .el-transfer__button:first-child {
   margin-bottom: 10px;
 }
+
 .check-line {
   width: 90%;
   height: 1px;

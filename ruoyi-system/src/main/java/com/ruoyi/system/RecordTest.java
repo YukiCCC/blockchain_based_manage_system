@@ -48,9 +48,9 @@ public class RecordTest {
 
         //调用合约查询接口
         List<Object> params2 = new ArrayList<>();
-        params2.add("1");
+        params2.add("3");
         // 调用record合约的「getRecord」的数，参数为recordid
-        TransactionResponse transactionResponse2 = transactionProcessor.sendTransactionAndGetResponseByContractLoader("Record", "0x732aabd91a8ef870634ab9adedf972959297b615", "getRecord", params2);
+        TransactionResponse transactionResponse2 = transactionProcessor.sendTransactionAndGetResponseByContractLoader("Record", "0x7894a9e1947e91aa2246b3d80c5c8abf6221d664", "getRecord", params2);
         //打印返国值
         List<Object> returnValues2 = transactionResponse2.getReturnObject();
         if(returnValues2 != null) {

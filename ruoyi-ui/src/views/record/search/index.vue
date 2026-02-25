@@ -91,7 +91,7 @@
 </template>
 
 <script>
-import { listAllArchives } from "@/api/fisco/archive";
+// import { listAllArchives } from "@/api/fisco/archive";
 import { getRecord } from "@/api/fisco/record";
 
 export default {
@@ -130,6 +130,7 @@ export default {
     /** 查询档案列表 */
     getList() {
       this.loading = true;
+      /*
       listAllArchives().then(response => {
         this.archiveList = response.data.map(item => ({
           ...item,
@@ -140,6 +141,10 @@ export default {
       }).catch(() => {
         this.loading = false;
       });
+      */
+      // 由于API已删除，暂时设置为空
+      this.archiveList = [];
+      this.loading = false;
     },
     // 多选框选中数据
     handleSelectionChange(selection) {

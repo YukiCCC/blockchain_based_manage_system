@@ -15,9 +15,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ruoyi.system.fisco.domain.SysArchiveFisco;
-import com.ruoyi.system.fisco.vo.SysArchiveFiscoVO;
-import com.ruoyi.system.mapper.SysArchiveFiscoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
@@ -143,63 +140,6 @@ public class FiscoRecordServiceImpl implements IFiscoRecordService {
         } catch (Exception e) {
             log.error("查询区块链记录异常", e);
             return new Fiscovo();
-        }
-    }
-
-    @Autowired
-    private SysArchiveFiscoMapper sysArchiveFiscoMapper;
-    
-    /**
-     * 添加档案
-     *
-     * @param sysArchiveFiscoVO 档案信息VO
-     * @return 是否添加成功
-     */
-    @Override
-    public boolean addArchiveFisco(SysArchiveFiscoVO sysArchiveFiscoVO) {
-        try {
-            // 添加到数据库
-            SysArchiveFisco sysArchiveFisco = new SysArchiveFisco();
-            sysArchiveFisco.setArchiveId(sysArchiveFiscoVO.getRecordId());
-            sysArchiveFisco.setName(sysArchiveFiscoVO.getName());
-            sysArchiveFisco.setEmployeeId(sysArchiveFiscoVO.getEmployeeId());
-            sysArchiveFisco.setDeptId(sysArchiveFiscoVO.getDeptId());
-            sysArchiveFisco.setDeptName(sysArchiveFiscoVO.getDeptName());
-            sysArchiveFisco.setStatus("0"); // 默认正常状态
-            // 移除 remark 字段设置，因为数据库表中不存在该字段
-            // sysArchiveFisco.setRemark(sysArchiveFiscoVO.getRemark());
-            
-            int rows = sysArchiveFiscoMapper.insertSysArchiveFisco(sysArchiveFisco);
-            if (rows <= 0) {
-                log.error("添加档案到数据库失败");
-                return false;
-            }
-            
-            log.info("添加档案成功，archiveId: {}", sysArchiveFisco.getArchiveId());
-            return true;
-            
-        } catch (Exception e) {
-            log.error("添加档案异常", e);
-            return false;
-        }
-    }
-
-    /**
-     * 查询所有档案信息
-     *
-     * @return 档案列表
-     */
-    @Override
-    public List<SysArchiveFisco> listAllArchiveFisco() {
-        try {
-            log.info("开始查询所有档案信息");
-            SysArchiveFisco query = new SysArchiveFisco();
-            List<SysArchiveFisco> list = sysArchiveFiscoMapper.selectSysArchiveFiscoList(query);
-            log.info("查询所有档案信息成功，共{}条记录", list.size());
-            return list;
-        } catch (Exception e) {
-            log.error("查询所有档案信息异常", e);
-            return new ArrayList<>();
         }
     }
 }

@@ -68,7 +68,7 @@
 
 <script>
 import { addRecord } from "@/api/fisco/record";
-import { addArchive } from "@/api/fisco/archive";
+// import { addArchive } from "@/api/fisco/archive";
 import { getUserProfile } from "@/api/system/user";
 
 export default {
@@ -177,7 +177,8 @@ export default {
             const recordResponse = await addRecord(this.form.recordId, description, this.form.remark);
             console.log("添加区块链记录成功:", recordResponse);
 
-            // 2. 添加档案记录
+            // 2. 添加档案记录 (由于archive.js被删除，暂时注释)
+            /*
             const archiveData = {
               recordId: parseInt(this.form.recordId), // 将记录ID作为recordId传入
               name: this.userInfo.nickName || this.userInfo.userName || "未知用户",
@@ -189,6 +190,7 @@ export default {
             console.log("准备添加档案数据:", archiveData);
             const archiveResponse = await addArchive(archiveData);
             console.log("添加档案记录成功:", archiveResponse);
+            */
 
             this.$modal.msgSuccess("添加成功");
             this.reset();

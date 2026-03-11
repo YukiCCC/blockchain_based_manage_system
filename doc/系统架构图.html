@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>系统架构图 - 基于联盟链的碳核算电力数据可信共享平台</title>
+    <!-- 引入 Mermaid 库 -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            flowchart: { 
+                useMaxWidth: false, 
+                htmlLabels: true,
+                curve: 'basis' 
+            }
+        });
+    </script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 20px;
+            background-color: #f4f6f9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .diagram-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            overflow: auto;
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>系统架构图</h1>
+    <div class="diagram-container">
+        <div class="mermaid">
+            graph TD
+            %% 定义样式
+            classDef frontend fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
+            classDef backend fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px;
+            classDef blockchain fill:#fff3e0,stroke:#ef6c00,stroke-width:2px;
+            classDef component fill:#ffffff,stroke:#333,stroke-width:1px;
+
+            subgraph Frontend ["前端层 (Frontend - Vue.js)"]
+                direction TB
+                UI_Login["登录界面"]:::component
+                UI_Router["前端路由守卫"]:::component
+                
+                subgraph Features ["核心功能"]
+                    UI_RecordInput["数据录入界面<br/>(Request/Upload)"]:::component
+                    UI_RecordSearch["数据查询界面<br/>(Search)"]:::component
+                end
+                
+                UI_Login --> |"JWT Token"| UI_Router
+                UI_Router --> UI_RecordInput
+                UI_Router --> UI_RecordSearch
+            end
+            class Frontend frontend
+
+            subgraph Backend ["后端服务层 (Backend - Spring Boot)"]
+                direction TB
+                API_Gateway["API 网关 / Controller"]:::component
+                
+                subgraph Security ["安全认证模块"]
+                    Auth_Service["用户认证服务"]:::component
+                    Perm_Check["权限校验 (@PreAuthorize)"]:::component
+                end
+                
+                subgraph Business ["业务逻辑模块"]
+                    Fisco_Service["FiscoRecordService"]:::component
+                end
+                
+                subgraph Integration ["区块链集成模块"]
+                    Wrapper_Class["Record.java Wrapper"]:::component
+                    Java_SDK["Fisco BCOS Java SDK"]:::component
+                end
+                
+                API_Gateway --> Auth_Service
+                API_Gateway --> Perm_Check
+                Perm_Check --> Fisco_Service
+                Fisco_Service --> Wrapper_Class
+                Wrapper_Class --> Java_SDK
+            end
+            class Backend backend
+
+            subgraph Blockchain ["区块链底层 (FISCO BCOS)"]
+                direction TB
+                Node["区块链节点"]:::component
+                EVM["EVM 虚拟机"]:::component
+                Contract_Record["Record 智能合约"]:::component
+                Table_Storage["分布式存储 Table"]:::component
+                
+                Node --> EVM
+                EVM --> Contract_Record
+                Contract_Record --> Table_Storage
+            end
+            class Blockchain blockchain
+
+            %% 跨层交互
+            UI_Login -.-> |"1. 登录请求"| API_Gateway
+            UI_RecordInput -.-> |"2. 提交数据 (addRecord)"| API_Gateway
+            UI_RecordSearch -.-> |"3. 查询数据 (getRecord)"| API_Gateway
+            
+            Java_SDK == "RPC / Channel" ==> Node
+        </div>
+    </div>
+    <div style="margin-top: 20px; color: #666;">
+        <p>提示：此图表由 Mermaid.js 渲染</p>
+    </div>
+</body>
+</html>

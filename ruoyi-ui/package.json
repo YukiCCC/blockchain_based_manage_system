@@ -1,7 +1,7 @@
 {
   "name": "ruoyi",
   "version": "3.9.0",
-  "description": "若依管理系统",
+  "description": "基于联盟链的碳核算电力数据可信共享平台",
   "author": "njupt_cyq",
   "license": "MIT",
   "scripts": {

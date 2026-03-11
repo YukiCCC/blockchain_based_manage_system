@@ -1,0 +1,122 @@
+pragma solidity ^0.4.25;
+pragma experimental ABIEncoderV2;
+
+import "./Table.sol";
+
+contract Record{
+    event AddRecordResult(int256 count);
+    event GetRecordResult(string description, string remark);
+    
+    TableFactory tableFactory;
+    string constant TABLE_NAME ="record";
+    constructor() public {
+        tableFactory = TableFactory(0x1001); //The fixed address is 0x1001 for TableFactory
+        tableFactory.createTable(TABLE_NAME, "recordid", "description,remark");
+    }
+    // add record to the table
+    function addRecord(string memory recordid, string memory description, string memory remark)
+    public
+    returns (int256)
+    {
+        Table table= tableFactory.openTable(TABLE_NAME);
+        Entry entry = table.newEntry();
+        entry.set("recordid", recordid);
+        entry.set("description", description);
+        entry.set("remark", remark);
+        
+        int256 count=table.insert(recordid, entry);
+        emit AddRecordResult(count);
+        
+        return count;
+    }
+    // get record by recordid
+    function getRecord(string memory recordid)
+    public
+    returns(string memory, string memory)
+    {
+        Table table =tableFactory.openTable(TABLE_NAME);
+
+        Condition condition =table.newCondition();
+        condition.EQ("recordid", recordid);
+        
+        Entries entries =table.select(recordid, condition);
+        
+        require(entries.size() > 0, "Record does not exist");
+        
+        Entry entry = entries.get(0);
+        
+        string memory description = entry.getString("description");
+        string memory remark =entry.getString("remark");
+        
+        emit GetRecordResult(description, remark);
+        
+        return(description,remark);
+    }
+}
+
+contract TableFactory {
+    function openTable(string memory) public view returns (Table) {} //open table
+    function createTable(string memory, string memory, string memory) public returns (int256) {} //create table
+}
+
+//select condition
+contract Condition {
+    function EQ(string memory, int256) public view{}
+    function EQ(string memory, string memory) public view{}
+
+    function NE(string memory, int256) public view{}
+    function NE(string memory, string memory) public view{}
+
+    function GT(string memory, int256) public view{}
+    function GE(string memory, int256) public view{}
+
+    function LT(string memory, int256) public view{}
+    function LE(string memory, int256) public view{}
+
+    function limit(int256) public view{}
+    function limit(int256, int256) public view{}
+}
+
+//one record
+contract Entry {
+    function getInt(string memory) public view returns (int256) {}
+    function getUInt(string memory) public view returns (uint256) {}
+    function getAddress(string memory) public view returns (address) {}
+    function getBytes64(string memory) public view returns (bytes1[64] memory) {}
+    function getBytes32(string memory) public view returns (bytes32) {}
+    function getString(string memory) public view returns (string memory) {}
+
+    function set(string memory, int256) public {}
+    function set(string memory, uint256) public {}
+    function set(string memory, string memory) public {}
+    function set(string memory, address) public {}
+}
+
+//record sets
+contract Entries {
+    function get(int256) public view returns (Entry) {}
+    function size() public view returns (int256) {}
+}
+
+//Table main contract
+contract Table {
+    function select(string memory, Condition) public view returns (Entries) {}
+    function insert(string memory, Entry) public returns (int256) {}
+    function update(string memory, Entry, Condition) public returns (int256) {}
+    function remove(string memory, Condition) public returns (int256) {}
+
+    function newEntry() public view returns (Entry) {}
+    function newCondition() public view returns (Condition) {}
+}
+
+contract KVTableFactory {
+    function openTable(string memory) public view returns (KVTable) {}
+    function createTable(string memory, string memory, string memory) public returns (int256) {}
+}
+
+//KVTable per permiary key has only one Entry
+contract KVTable {
+    function get(string memory) public view returns (bool, Entry) {}
+    function set(string memory, Entry) public returns (int256) {}
+    function newEntry() public view returns (Entry) {}
+}

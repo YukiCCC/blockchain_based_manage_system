@@ -29,8 +29,8 @@
         <el-form-item label="部门" prop="department">
           <el-input v-model="form.department" placeholder="请输入部门名称" />
         </el-form-item>
-        <el-form-item label="检修线路" prop="inspectionLine">
-          <el-input v-model="form.inspectionLine" placeholder="请输入检修线路" />
+        <el-form-item label="控制命令集" prop="inspectionLine">
+          <el-input v-model="form.inspectionLine" placeholder="请上传控制命令集" />
         </el-form-item>
         <el-form-item label="是否异常" prop="isAbnormal">
           <el-select v-model="form.isAbnormal" placeholder="请选择是否异常" style="width: 100%">
@@ -38,14 +38,14 @@
             <el-option label="否" value="否" />
           </el-select>
         </el-form-item>
-        <el-form-item label="设备是否损坏" prop="hasEquipmentDamage">
-          <el-select v-model="form.hasEquipmentDamage" placeholder="请选择设备是否损坏" style="width: 100%">
-            <el-option label="是" value="是" />
-            <el-option label="否" value="否" />
+        <el-form-item label="数据类型" prop="hasEquipmentDamage">
+          <el-select v-model="form.hasEquipmentDamage" placeholder="请选择数据类型" style="width: 100%" disabled>
+            <el-option label="无人机命令集" value="是" />
+            <el-option label="无人机查勘数据" value="否" />
           </el-select>
         </el-form-item>
-        <el-form-item label="备注信息" prop="remark">
-          <el-input v-model="form.remark" placeholder="请输入备注信息，建议使用UUID格式" />
+        <el-form-item label="任务ID" prop="remark">
+          <el-input v-model="form.remark" placeholder="请输入任务ID，建议使用UUID格式" />
           <el-button type="primary" size="mini" style="margin-top: 5px" @click="generateUUID">生成UUID</el-button>
         </el-form-item>
         <el-form-item>
@@ -89,7 +89,7 @@ export default {
         department: undefined,
         inspectionLine: undefined,
         isAbnormal: "否",
-        hasEquipmentDamage: "否",
+        hasEquipmentDamage: "是",
         remark: undefined
       },
       // JSON预览内容
@@ -109,7 +109,7 @@ export default {
           { required: true, message: "部门不能为空", trigger: "blur" }
         ],
         inspectionLine: [
-          { required: true, message: "检修线路不能为空", trigger: "blur" }
+          { required: true, message: "控制命令集不能为空", trigger: "blur" }
         ],
         isAbnormal: [
           { required: true, message: "请选择是否异常", trigger: "change" }
@@ -118,7 +118,7 @@ export default {
           { required: true, message: "请选择设备是否损坏", trigger: "change" }
         ],
         remark: [
-          { required: true, message: "备注信息不能为空", trigger: "blur" }
+          { required: true, message: "任务ID不能为空", trigger: "blur" }
         ]
       }
     };
@@ -152,7 +152,7 @@ export default {
         department: undefined,
         inspectionLine: undefined,
         isAbnormal: "否",
-        hasEquipmentDamage: "否",
+        hasEquipmentDamage: "是",
         remark: undefined
       };
       this.resetForm("form");
